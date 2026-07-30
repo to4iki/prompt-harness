@@ -5,11 +5,15 @@ This repo defines work modes for AI coding agents. Modes are agent-agnostic Mark
 ## Layout
 
 - `modes/*.md` — the assets. One mode per file
-- `adapters/<agent>/` — per-agent wiring: how a matching mode reaches that agent's context, and how to install and uninstall it. `claude-code` is the only adapter today
+- `adapters/<agent>/` — per-agent wiring: how a matching mode reaches that agent's context, and how to install and uninstall it. `claude-code` is the only adapter today. Debug tooling belongs here too, since reading back what an agent received depends on that agent's own formats
 
 ## When editing a mode
 
 Modes are read straight from this checkout, so an edit takes effect on the next prompt with no reinstall. Reinstall only when the repo moves, or when something overwrites the config the adapter wrote to — `~/.claude/settings.json` in the case of Claude Code.
+
+## Checking what was injected
+
+`make injections` lists the modes the Claude Code hook actually attached, newest first, across every project. `N=20` raises the limit. It reads session transcripts rather than asking the agent, so it reports what the hook did, not what the agent believes.
 
 ## Before committing
 
