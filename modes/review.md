@@ -1,6 +1,6 @@
 ---
 name: review
-triggers: レビュー|コードレビュー|review
+triggers: レビュー, コードレビュー, review
 ---
 
 ## 判定原則

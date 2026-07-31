@@ -25,10 +25,24 @@ def parse_mode(text):
     return triggers, body
 
 
+def build_pattern(triggers):
+    """Compile the comma-separated trigger words into one case-insensitive pattern.
+
+    Each word is matched literally and only where it is not glued to other letters,
+    so a short one like `pr` stays out of `priority`. The lookarounds name ASCII
+    letters rather than using `\\b` because Python counts kana as word characters,
+    which would stop `PR` from matching `PRを作って`.
+    """
+    words = [r'\s?'.join(map(re.escape, t.split())) for t in re.split(r'[,|]', triggers)]
+    alts = ['(?<![A-Za-z])%s(?![A-Za-z])' % w for w in words if w]
+    return '(?i)' + '|'.join(alts) if alts else ''
+
+
 def find_mode(prompt, modes_dir):
     for path in sorted(modes_dir.glob('*.md')):
         triggers, body = parse_mode(path.read_text(encoding='utf-8'))
-        if triggers and re.search(triggers, prompt):
+        pattern = build_pattern(triggers)
+        if pattern and re.search(pattern, prompt):
             return path.stem, body.strip()
     return None
 

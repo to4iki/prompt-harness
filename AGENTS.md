@@ -11,6 +11,8 @@ This repo defines work modes for AI coding agents. Modes are agent-agnostic Mark
 
 Modes are read straight from this checkout, so an edit takes effect on the next prompt with no reinstall. Reinstall only when the repo moves, or when something overwrites the config the adapter wrote to — `~/.claude/settings.json` in the case of Claude Code.
 
+`triggers:` is a comma-separated list of literal words, not a regular expression. The adapter compiles the pattern: matching ignores case, a space inside a word also matches without one, and a word only matches where it is not glued to other ASCII letters — that boundary is what keeps `pr` out of `priority`. Because it is ASCII-only, Japanese suffixes still match (`PR` fires on `PRを作って`), but an English inflection needs its own entry (`review` does not cover `reviewed`). Leaving the boundary to the adapter also keeps modes portable, since it needs lookarounds that Python allows and Go's RE2 rejects.
+
 ## Checking what was injected
 
 `make injections` lists the modes the Claude Code hook actually attached, newest first, across every project. `N=20` raises the limit. It reads session transcripts rather than asking the agent, so it reports what the hook did, not what the agent believes.
