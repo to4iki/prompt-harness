@@ -1,8 +1,10 @@
 # to4iki/prompt-harness
 
-Work modes for AI coding agents. A mode declares the decision principles to follow, the stop conditions to run to, and the gates left to a human. The mode whose triggers match your prompt is attached automatically, so the guardrails never depend on the agent deciding to read them.
+Work modes for AI coding agents. A mode declares the decision principles to follow, the stop conditions to run to, and the gates left to a human. Every mode whose triggers match your prompt is attached automatically, so the guardrails never depend on the agent deciding to read them.
 
-Modes are plain Markdown and agent-agnostic. Attaching one is agent-specific and lives in `adapters/`. Claude Code is the only adapter today.
+Modes are phases of a job rather than exclusive hats, and one request often spans several — implement this, then open the PR. Such a request gets both modes, and their stop conditions and gates add up instead of one phase silently dropping the other's.
+
+Modes are plain Markdown and agent-agnostic. Attaching them is agent-specific and lives in `adapters/`. Claude Code is the only adapter today.
 
 ## Install
 

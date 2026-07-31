@@ -14,4 +14,4 @@ triggers: pr, pull request, プルリク
 
 ## Gate
 
-- 無し
+- 無し（このモードは Gate を追加しない。同時に適用される他モードの Gate は有効）

@@ -15,12 +15,12 @@ import json
 import os
 import sys
 
-PHRASE = 'The work mode matching'
+PHRASE = 'Work modes matching this request:'
 TRANSCRIPTS = '~/.claude/projects/*/*.jsonl'
 
 
 def injections():
-    """Yield (timestamp, mode, project) per injection. Skip whatever cannot be read."""
+    """Yield (timestamp, modes, project) per injection. Skip whatever cannot be read."""
     skipped = 0
     for path in glob.glob(os.path.expanduser(TRANSCRIPTS)):
         try:
@@ -43,10 +43,11 @@ def injections():
                 attachment = record.get('attachment') or {}
                 if attachment.get('hookEvent') != 'UserPromptSubmit' or 'stdout' not in attachment:
                     continue
-                mode = attachment['stdout'].split('request is ', 1)[1].split('.', 1)[0]
+                # One injection can carry several modes, listed comma-separated.
+                modes = attachment['stdout'].split(PHRASE, 1)[1].split('.', 1)[0].strip()
                 yield (
                     record.get('timestamp', ''),
-                    mode,
+                    modes,
                     os.path.basename(os.path.dirname(path)),
                 )
     if skipped:
@@ -59,8 +60,8 @@ def main():
     if not rows:
         print('no injection found in %s' % TRANSCRIPTS)
         return
-    for timestamp, mode, project in rows:
-        print('%s  %-10s %s' % (timestamp, mode, project))
+    for timestamp, modes, project in rows:
+        print('%s  %-24s %s' % (timestamp, modes, project))
 
 
 main()
