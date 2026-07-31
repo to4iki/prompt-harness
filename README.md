@@ -15,4 +15,5 @@ This installs the Claude Code adapter, which registers a `UserPromptSubmit` hook
 ## Modes
 
 - **[implement](./modes/implement.md)** — Change code with a minimal diff, verified by build/test/lint and a fresh-context subagent.
+- **[pull-request](./modes/pull-request.md)** — Open a pull request described as briefly as it can be, rather than filling in every template section.
 - **[review](./modes/review.md)** — Review a diff with grounded findings, separating nits from blockers.
