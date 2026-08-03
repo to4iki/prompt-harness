@@ -1,5 +1,2 @@
 # macOS-specific files
 .DS_Store
-
-# Python bytecode cache, written when the hook modules get imported
-__pycache__/

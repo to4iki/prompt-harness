@@ -1,21 +1,21 @@
 # to4iki/prompt-harness
 
-Work modes for AI coding agents. A mode declares the decision principles to follow, the stop conditions to run to, and the gates left to a human. Every mode whose triggers match your prompt is attached automatically, so the guardrails never depend on the agent deciding to read them.
+Work modes for AI coding agents, attached via [rigmode](https://github.com/to4iki/rigmode).
 
-Modes are phases of a job rather than exclusive hats, and one request often spans several — implement this, then open the PR. Such a request gets both modes, and their stop conditions and gates add up instead of one phase silently dropping the other's.
-
-Modes are plain Markdown and agent-agnostic. Attaching them is agent-specific and lives in `adapters/`. Claude Code is the only adapter today.
-
-## Install
+## Setup
 
 ```sh
-make install
-```
+# Point rigmode at this checkout
+mkdir -p ~/.config/rigmode
+cat > ~/.config/rigmode/config.toml <<EOF
+modes_dirs = ["$(pwd)/modes"]
+EOF
 
-This installs the Claude Code adapter, which registers a `UserPromptSubmit` hook in `~/.claude/settings.json` pointing at this checkout. Nothing is copied, so `git pull` is enough to pick up mode changes. Re-run `make install` after moving the repo.
+rigmode hook install claude-code
+```
 
 ## Modes
 
-- **[implement](./modes/implement.md)** — Change code with a minimal diff, verified by build/test/lint and a fresh-context subagent.
-- **[pull-request](./modes/pull-request.md)** — Open a pull request described as briefly as it can be, rather than filling in every template section.
+- **[implement](./modes/implement.md)** — Change code with a minimal diff, verified by build/test/lint.
+- **[pull-request](./modes/pull-request.md)** — Open a pull request described as briefly as it can be.
 - **[review](./modes/review.md)** — Review a diff with grounded findings, separating nits from blockers.
