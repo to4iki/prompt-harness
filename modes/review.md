@@ -5,7 +5,7 @@ triggers: レビュー, コードレビュー, review
 
 ## 判定原則
 
-- 指摘は根拠つき。MUST/IMO/nits/Q を分ける
+- 指摘は根拠付きで、MUST/IMO/nits/q/FYI を分ける
 
 ## 停止条件
 
